@@ -7,7 +7,7 @@ class CreateDoctorPatients < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :doctor_patients
+    add_index :doctor_patients,
               [ :doctor_id, :patient_id ]
               { unique: true }
   end

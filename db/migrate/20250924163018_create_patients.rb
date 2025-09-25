@@ -12,7 +12,7 @@ class CreatePatients < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :patients
+    add_index :patients,
               [ :first_name, :last_name, :middle_name, :birthday ]
               { unique: true,
               name: "uniqueness_constraint_for_a_name_and_birthday_group" }
