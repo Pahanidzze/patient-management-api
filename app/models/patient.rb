@@ -1,8 +1,8 @@
 class Patient < ApplicationRecord
-  validates :first_name, presence: true, length: { maxmimum: NAME_LENGTH }
+  validates :first_name, presence: true, length: { maximum: NAME_LENGTH }
   validates :last_name, presence: true, length: { maximum: NAME_LENGTH }
   validates :middle_name, length: { maximum: NAME_LENGTH }, allow_blank: true
-  validates :burthday, presence: true
+  validates :birthday, presence: true
   validates :gender, presence: true, inclusion: { in: GENDERS }
   validates :height, presence: true, numericality: {
     only_integer: true,
@@ -12,7 +12,7 @@ class Patient < ApplicationRecord
   }
 
   # Patient uniqueness.
-  validates :burthday, uniqueness: {
+  validates :birthday, uniqueness: {
     scope: [ :first_name, :last_name, :middle_name ],
     case_sensitive: false,
     message: "patient with same name and birthday already exists"
@@ -27,19 +27,19 @@ class Patient < ApplicationRecord
   end
 
   def age
-    return nil unless burthday
+    return nil unless birthday
 
     today = Date.current
-    result = today.year - burthday.year
+    result = today.year - birthday.year
 
-    result -= 1 unless burthday_this_year?
+    result -= 1 unless birthday_this_year?
 
     result
   end
 
-  def burthday_this_year?
+  def birthday_this_year?
     today = Date.current
 
-    today.month > burthday.month || (today.month == burthday.month && today.day > burthday.day)
+    today.month > birthday.month || (today.month == birthday.month && today.day > birthday.day)
   end
 end
