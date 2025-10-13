@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_25_095227) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_13_070719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "bmr_calculations", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.string "formula", null: false
+    t.decimal "value", precision: 10, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id", "created_at"], name: "index_bmr_calculations_on_patient_id_and_created_at"
+    t.index ["patient_id"], name: "index_bmr_calculations_on_patient_id"
+  end
 
   create_table "doctor_patients", force: :cascade do |t|
     t.bigint "doctor_id", null: false
@@ -47,6 +57,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_25_095227) do
     t.index ["gender"], name: "index_patients_on_gender"
   end
 
+  add_foreign_key "bmr_calculations", "patients"
   add_foreign_key "doctor_patients", "doctors"
   add_foreign_key "doctor_patients", "patients"
 end
